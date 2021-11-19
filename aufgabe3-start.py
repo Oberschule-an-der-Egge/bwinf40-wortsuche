@@ -40,6 +40,7 @@ def create_easy(word_list, matrix):
     # matrix[idx] für diagonal
 
 
+
     for word in word_list:
         start_row, start_column = find_word_space(word, matrix)
         write_word(start_row, start_column, word)
