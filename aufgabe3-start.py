@@ -1,5 +1,6 @@
 from pathlib import Path
 import random
+import string
 
 
 """"
@@ -44,16 +45,36 @@ def create_easy(word_list, matrix):
     for word in word_list:
         start_row, start_column = find_word_space(word, matrix)
         write_word(start_row, start_column, word)
-        for row in matrix:
-            print(row)
+        fill_empty_spaces(matrix)
+        print(matrix)
+
+
+        #for row in matrix:
+            #print(row)
+
+def fill_empty_spaces(matrix):
+    i = 0
+    h = 0
+    total_spaces = (dimensions[0]) * (dimensions[1])
+    for idx, row in enumerate(matrix):
+        if matrix[idx][h] == None and i < total_spaces:
+            matrix[idx][h] = random.choice(list(string.ascii_uppercase))
+            i += 1
+            h += 1
+        else:
+            i += 1
+            h += 1
+    return matrix
+
+
 
 def find_word_space(word, matrix):
-    max_offset = len(matrix[0]) - len(word) - 1
+    max_offset = len(matrix[0]) +1 - len(word) - 1
     start_column = random.randint(0, max_offset)
     for idx, row in enumerate(matrix):
         if matrix[idx][start_column] == None:
             fail = False
-            for column in range(start_column, len(matrix[0]) - start_column):
+            for column in range(start_column, len(matrix[0]) - start_column ):
                 if matrix[idx][column] == None:
                     continue
                 else:
@@ -103,3 +124,4 @@ if __name__ == '__main__':
     matrix = make_matrix(dimensions)
     create_easy(word_list, matrix)
     print_matrix(matrix)
+
