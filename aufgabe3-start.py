@@ -38,6 +38,34 @@ def make_matrix(dimensions):
 
 def create_easy(word_list, matrix):
     # matrix[idx] für diagonal
+
+
+    for word in word_list:
+        start_row, start_column = find_word_space(word, matrix)
+        write_word(start_row, start_column, word)
+        for row in matrix:
+            print(row)
+
+def find_word_space(word, matrix):
+    max_offset = len(matrix[0]) - len(word) - 1
+    start_column = random.randint(0, max_offset)
+    for idx, row in enumerate(matrix):
+        if matrix[idx][start_column] == None:
+            fail = False
+            for column in range(start_column, len(matrix[0]) - start_column):
+                if matrix[idx][column] == None:
+                    continue
+                else:
+                    fail = True
+            if not fail:
+                return idx, start_column
+
+def write_word(start_row, start_column, word):
+    for idx, letter in enumerate(word):
+        matrix[start_row][start_column] = letter
+        start_column += 1
+
+'''
     for idx in range(0, len(word_list)):
 
         word_list_0 = list(word_list[idx])
@@ -50,10 +78,16 @@ def create_easy(word_list, matrix):
 
             element_1 = matrix[x-1]
 
-            if element_1[idx+y] == None:
-                element_1[idx+y] = word_list_0[idx]
-            else:
-                break
+
+            for idx in range(0, len(word_list_0) - 1):
+                    if element_1[idx+y] == None:
+                        pass
+                    else:
+                        print("a")
+                        break
+            for idx in range(0, len(element_1)-1):
+                element_1[idx + y] = word_list_0[idx]
+'''
 
 
 
@@ -66,5 +100,5 @@ def print_matrix(matrix):
 if __name__ == '__main__':
     dimensions, word_list, word_count = read_input()
     matrix = make_matrix(dimensions)
-    create_easy(matrix, word_list)
+    create_easy(word_list, matrix)
     print_matrix(matrix)
