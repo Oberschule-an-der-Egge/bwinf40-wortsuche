@@ -5,12 +5,11 @@ import string
 
 """"
 Kriterien:
-- Diagonale Wörter
 - Ähnliche Anfänge
 - Rückwärts Wörter
 """
 
-def read_input(filename='worte0.txt'):
+def read_input(filename='worte2.txt'):
     """ Beispieldatei einlesen
     Die Zeilen in Integer und List umwandeln und Zeilenumbrüche mit .strip() entfernen.
     Default ist das Aufgabenbeispiel parkplatz0.txt.
@@ -37,33 +36,32 @@ def make_matrix(dimensions):
     return matrix
 
 
-def create_easy(word_list, matrix):
-    # matrix[idx] für diagonal
+def create_game(word_list, matrix):
 
 
-
+    difficulty = int(input("Schwierigkeit (1,2,3):"))
     for word in word_list:
         start_row, start_column = find_word_space(word, matrix)
-        write_word(start_row, start_column, word)
-        fill_empty_spaces(matrix)
-        print(matrix)
+        write_word(start_row, start_column, word, difficulty)
+    fill_empty_spaces(matrix, difficulty, word_list)
 
 
-        #for row in matrix:
-            #print(row)
 
-def fill_empty_spaces(matrix):
+def fill_empty_spaces(matrix, difficulty, word_list):
     i = 0
-    h = 0
     total_spaces = (dimensions[0]) * (dimensions[1])
     for idx, row in enumerate(matrix):
-        if matrix[idx][h] == None and i < total_spaces:
-            matrix[idx][h] = random.choice(list(string.ascii_uppercase))
+        for coloum in range(len(matrix[0])):
+            if matrix[idx][coloum] == None and i < total_spaces:
+                if difficulty == 1:
+                    matrix[idx][coloum] = random.choice(list(string.ascii_uppercase))
+                else:
+                    matrix[idx][coloum] = random.choice(list(word_list[0]))
+            elif i == total_spaces:
+                return matrix
+            else:
+                continue
             i += 1
-            h += 1
-        else:
-            i += 1
-            h += 1
     return matrix
 
 
@@ -74,7 +72,7 @@ def find_word_space(word, matrix):
     for idx, row in enumerate(matrix):
         if matrix[idx][start_column] == None:
             fail = False
-            for column in range(start_column, len(matrix[0]) - start_column ):
+            for column in range(start_column, len(matrix[0]) - start_column):
                 if matrix[idx][column] == None:
                     continue
                 else:
@@ -82,34 +80,18 @@ def find_word_space(word, matrix):
             if not fail:
                 return idx, start_column
 
-def write_word(start_row, start_column, word):
-    for idx, letter in enumerate(word):
-        matrix[start_row][start_column] = letter
-        start_column += 1
+def write_word(start_row, start_column, word, difficulty):
 
-'''
-    for idx in range(0, len(word_list)):
-
-        word_list_0 = list(word_list[idx])
-        element = matrix[0]
-        z = len(element) - len(word_list_0)
-        x = random.randint(1, len(matrix))
-        y = random.randint(0, z)
-
-        for idx in range(0, len(word_list_0)):
-
-            element_1 = matrix[x-1]
-
-
-            for idx in range(0, len(word_list_0) - 1):
-                    if element_1[idx+y] == None:
-                        pass
-                    else:
-                        print("a")
-                        break
-            for idx in range(0, len(element_1)-1):
-                element_1[idx + y] = word_list_0[idx]
-'''
+    if difficulty == 3:
+        word = list(word)
+        word.reverse()
+        for idx, letter in enumerate(word):
+            matrix[start_row][start_column] = letter
+            start_column += 1
+    else:
+        for idx, letter in enumerate(word):
+            matrix[start_row][start_column] = letter
+            start_column += 1
 
 
 
@@ -122,6 +104,6 @@ def print_matrix(matrix):
 if __name__ == '__main__':
     dimensions, word_list, word_count = read_input()
     matrix = make_matrix(dimensions)
-    create_easy(word_list, matrix)
+    create_game(word_list, matrix)
     print_matrix(matrix)
 
