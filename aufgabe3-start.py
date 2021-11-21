@@ -9,7 +9,7 @@ Kriterien:
 - Rückwärts Wörter
 """
 
-def read_input(filename='worte2.txt'):
+def read_input(filename='worte5.txt'):
     """ Beispieldatei einlesen
     Die Zeilen in Integer und List umwandeln und Zeilenumbrüche mit .strip() entfernen.
     Default ist das Aufgabenbeispiel parkplatz0.txt.
