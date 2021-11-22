@@ -5,12 +5,13 @@ import string
 
 """"
 Kriterien:
-- Ähnliche Anfänge
-- Rückwärts Wörter
+    1. Leicht: Nur gewohnte Laufrichtung, ausschließlich andere Buchstaben
+    2. Mittel: Nur gewohnte Laufrichtung, alle Buchstaben des Alphabets
+    3. Schwer: Auch umgedrehte Laufrichtung, nur Buchstaben der Suchbegriffe
 """
 
 
-def read_input(filename='worte3.txt'):
+def read_input(filename='worte2.txt'):
     """ Beispieldatei einlesen
     Die Zeilen in Integer und List umwandeln und Zeilenumbrüche mit .strip() entfernen.
     Default ist das Aufgabenbeispiel parkplatz0.txt.
@@ -30,7 +31,7 @@ def read_input(filename='worte3.txt'):
 
 def make_matrix(dimensions):
     matrix = [None] * dimensions[0]
-    for idx in range(0, len(matrix)):
+    for idx, row in enumerate(matrix):
         matrix[idx] = [None] * dimensions[1]
 
     return matrix
@@ -133,8 +134,19 @@ def write_word_down(matrix, start_row, start_column, word, difficulty):
 
 
 def print_matrix(matrix):
+    print('+', end='')
+    for _ in matrix[0]:
+        print('---+', end='')
+    print()
     for row in matrix:
-        print(row)
+        print('| ', end='')
+        for letter in row:
+            print(letter, end=' | ')
+        print()
+        print('+', end='')
+        for _ in row:
+            print('---+', end='')
+        print()
 
 
 def run_main():
