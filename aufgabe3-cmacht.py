@@ -1,3 +1,4 @@
+from copy import deepcopy
 from pathlib import Path
 import random
 import string
@@ -11,7 +12,7 @@ Kriterien:
 """
 
 
-def read_input(filename='worte2.txt'):
+def read_input(filename='worte5.txt'):
     """ Beispieldatei einlesen
     Die Zeilen in Integer und List umwandeln und Zeilenumbrüche mit .strip() entfernen.
     Default ist das Aufgabenbeispiel parkplatz0.txt.
@@ -49,6 +50,9 @@ def create_game(word_list, matrix):
                 continue
         start_row, start_column = find_word_space_right(word, matrix)
         write_word_right(matrix, start_row, start_column, word, difficulty)
+    dot_matrix = deepcopy(matrix)
+    fill_empty_spaces_with_dots(dot_matrix)
+    print_matrix(dot_matrix)
     fill_empty_spaces(matrix, difficulty, word_list)
 
 
@@ -70,6 +74,14 @@ def fill_empty_spaces(matrix, difficulty, word_list):
                 # matrix[idx][col] = '.'
     return matrix
 
+def fill_empty_spaces_with_dots(matrix):
+    """ Fülle die leeren Felder mit Buchstaben
+    """
+    for idx, row in enumerate(matrix):
+        for col, _ in enumerate(row):
+            if matrix[idx][col] is None:
+                matrix[idx][col] = '.'
+    return matrix
 
 def find_word_space_right(word, matrix):
     """ Finde eine Zeile mit genug freiem Platz für das gegebene Wort
